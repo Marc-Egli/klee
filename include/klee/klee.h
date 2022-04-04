@@ -13,9 +13,19 @@
 #include "stdint.h"
 #include "stddef.h"
 
+#include "customIncludes.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+
+	/* ! ! This is a custom function ! ! 
+	 *
+	 *
+	 *
+	 */
+	void proto_tree_add_item(proto_tree *tree, int hfindex, tvbuff_t *tvb, int start, int length, unsigned int encoding);  
 
   /* Add an accesible memory object at a user specified location. It
    * is the users responsibility to make sure that these memory
