@@ -116,6 +116,10 @@ static SpecialFunctionHandler::HandlerInfo handlerInfo[] = {
   add("malloc", handleMalloc, true),
   add("memalign", handleMemalign, true),
   add("realloc", handleRealloc, true),
+  
+  /* Registering the handler, last paramter indicates if there is a return value or not */
+	add("proto_tree_add_item", handleProtoTreeAddItem, false),
+
 
 #ifdef SUPPORT_KLEE_EH_CXX
   add("_klee_eh_Unwind_RaiseException_impl", handleEhUnwindRaiseExceptionImpl, false),
@@ -578,10 +582,36 @@ void SpecialFunctionHandler::handleSetForking(ExecutionState &state,
   }
 }
 
+/* Custom Handler for proto_tree_add_item function
+ *
+ *
+ *
+ *
+ */
+void SpecialFunctionHandler::handleProtoTreeAddItem(ExecutionState &state,
+																							KInstruction *target,
+																							std::vector<ref<Expr> > &arguments) {
+	llvm::errs() <<  "---------Handler--------" << "\n";
+	llvm::errs() << "Offset "  << ": " << arguments[3] << "\n";
+	
+	llvm::errs() << "Size is  " << ": " << arguments[4] << "\n";
+	llvm::errs() << "Field type "	<< ": " << arguments[1]	<< "\n";
+	llvm::errs() << "------------------------" << "\n";
+
+}
+
 void SpecialFunctionHandler::handleStackTrace(ExecutionState &state,
                                               KInstruction *target,
                                               std::vector<ref<Expr> > &arguments) {
-  state.dumpStack(outs());
+  
+//state.dumpStack(outs());
+				llvm::errs() << "--------Dumping-constraints--------" << "\n";
+	std::vector<ref<Expr>>::iterator it;
+  for(auto it = state.constraints.begin(), ie = state.constraints.end(); it != ie; ++it){
+		it->get()->dump();
+
+  }
+  //printf("Constraints :  %s\n",state.constraints.print());
 }
 
 void SpecialFunctionHandler::handleWarning(ExecutionState &state,
