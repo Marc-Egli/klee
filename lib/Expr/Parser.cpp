@@ -1632,8 +1632,9 @@ void QueryCommand::dump() {
     ObjectsBegin = &Objects[0];
     ObjectsEnd = ObjectsBegin + Objects.size();
   }
+  // add customValues to print in query file
   ExprPPrinter::printQuery(llvm::outs(), ConstraintSet(Constraints), Query,
-                           ValuesBegin, ValuesEnd, ObjectsBegin, ObjectsEnd,
+                           std::vector<std::map<std::string, ref<Expr>>>(), ValuesBegin, ValuesEnd, ObjectsBegin, ObjectsEnd,
                            false);
 }
 

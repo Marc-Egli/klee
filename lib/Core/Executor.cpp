@@ -4471,7 +4471,8 @@ void Executor::getConstraintLog(const ExecutionState &state, std::string &res,
   case KQUERY: {
     std::string Str;
     llvm::raw_string_ostream info(Str);
-    ExprPPrinter::printConstraints(info, state.constraints);
+    // add customValues to print in query file
+    ExprPPrinter::printConstraints(info, state.constraints, state.customValues);
     res = info.str();
   } break;
 
@@ -4532,8 +4533,9 @@ bool Executor::getSymbolicSolution(const ExecutionState &state,
   solver->setTimeout(time::Span());
   if (!success) {
     klee_warning("unable to compute initial values (invalid constraints?)!");
+    // add customValues to print in query file
     ExprPPrinter::printQuery(llvm::errs(), state.constraints,
-                             ConstantExpr::alloc(0, Expr::Bool));
+                             ConstantExpr::alloc(0, Expr::Bool), state.customValues);
     return false;
   }
   

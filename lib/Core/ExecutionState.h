@@ -203,6 +203,9 @@ public:
   /// Copies of ExecutionState should not copy ptreeNode
   PTreeNode *ptreeNode = nullptr;
 
+  /// @brief customValues to store protocol fields offset/size
+  std::vector<std::map<std::string, ref<Expr>>> customValues;
+
   /// @brief Ordered list of symbolics: used to generate test cases.
   //
   // FIXME: Move to a shared list structure (not critical).

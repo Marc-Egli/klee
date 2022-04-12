@@ -60,12 +60,16 @@ namespace klee {
     /// correct position following any output line breaks.
     static void printSingleExpr(llvm::raw_ostream &os, const ref<Expr> &e);
 
+    // Add customValues parameter to print later.
     static void printConstraints(llvm::raw_ostream &os,
-                                 const ConstraintSet &constraints);
+                                 const ConstraintSet &constraints,
+                                 const std::vector<std::map<std::string, ref<Expr>>> &customValues = std::vector<std::map<std::string, ref<Expr>>>());
 
+    // Add customValues parameter to print later.
     static void printQuery(llvm::raw_ostream &os,
                            const ConstraintSet &constraints,
                            const ref<Expr> &q,
+                           const std::vector<std::map<std::string, ref<Expr>>> &customValues = std::vector<std::map<std::string, ref<Expr>>>(),
                            const ref<Expr> *evalExprsBegin = 0,
                            const ref<Expr> *evalExprsEnd = 0,
                            const Array * const* evalArraysBegin = 0,
