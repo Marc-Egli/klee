@@ -151,6 +151,7 @@ namespace klee {
     
     //Custom handlers
     HANDLER(handleProtoTreeAddItem);
+    
 #undef HANDLER
   };
 } // End klee namespace
