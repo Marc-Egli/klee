@@ -471,9 +471,11 @@ void ExprPPrinter::printSingleExpr(llvm::raw_ostream &os, const ref<Expr> &e) {
   p.print(e, PC);
 }
 
+// add customValues to print in kquery file
 void ExprPPrinter::printConstraints(llvm::raw_ostream &os,
-                                    const ConstraintSet &constraints) {
-  printQuery(os, constraints, ConstantExpr::alloc(false, Expr::Bool));
+                                    const ConstraintSet &constraints,
+                                    const std::vector<std::map<std::string, ref<Expr> >> &customValues) {
+  printQuery(os, constraints, ConstantExpr::alloc(false, Expr::Bool), customValues);
 }
 
 namespace {
@@ -485,9 +487,11 @@ struct ArrayPtrsByName {
 };
 }
 
+// add customValues to print in kquery file
 void ExprPPrinter::printQuery(llvm::raw_ostream &os,
                               const ConstraintSet &constraints,
                               const ref<Expr> &q,
+                              const std::vector<std::map<std::string, ref<Expr> >> &customValues,
                               const ref<Expr> *evalExprsBegin,
                               const ref<Expr> *evalExprsEnd,
                               const Array * const *evalArraysBegin,
@@ -575,5 +579,21 @@ void ExprPPrinter::printQuery(llvm::raw_ostream &os,
   }
 
   PC << ')';
+  PC.breakLine();
+
+  // Print customValues (protocol fields) in the end of the query file.
+  PC << "Protocol fields [";
+  for(auto it = customValues.begin(), ie = customValues.end(); it != ie;){
+    for(auto it1=it->begin(), ie1 = it->end(); it1 != ie1;){
+      PC << it1->first;
+      p.print(it1->second, PC, true);
+      PC.breakLine();
+      ++it1;
+    }
+    ++it;
+    if (it != ie)
+      PC.breakLine();
+  }
+  PC << ']';
   PC.breakLine();
 }

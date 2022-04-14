@@ -101,6 +101,7 @@ ExecutionState::ExecutionState(const ExecutionState& state):
     openMergeStack(state.openMergeStack),
     steppedInstructions(state.steppedInstructions),
     instsSinceCovNew(state.instsSinceCovNew),
+    customValues(state.customValues), // add customValues
     unwindingInformation(state.unwindingInformation
                              ? state.unwindingInformation->clone()
                              : nullptr),

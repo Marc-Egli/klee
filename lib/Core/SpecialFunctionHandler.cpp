@@ -598,6 +598,15 @@ void SpecialFunctionHandler::handleProtoTreeAddItem(ExecutionState &state,
 	llvm::errs() << "Size is  " << ": " << arguments[4] << "\n";
 	llvm::errs() << "Field type "	<< ": " << arguments[1]	<< "\n";
 	llvm::errs() << "------------------------" << "\n";
+
+
+	//Add customValues to be printed in query file.
+	std::map<std::string, ref<Expr>> params;
+	params["FieldType"] = arguments[1];
+	params["Offset"] = arguments[3];
+	params["Size"] = arguments[4];
+	state.customValues.push_back(params);
+
 }
 
 void SpecialFunctionHandler::handleStackTrace(ExecutionState &state,
