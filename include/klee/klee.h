@@ -12,10 +12,14 @@
 
 #include "stdint.h"
 #include "stddef.h"
+//#include "customIncludes.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+
+	//proto_item *proto_tree_add_item(proto_tree *tree, int hfindex, tvbuff_t *tvb, const gint start, gint length, const guint encoding);
 
   /* Add an accesible memory object at a user specified location. It
    * is the users responsibility to make sure that these memory

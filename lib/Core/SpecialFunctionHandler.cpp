@@ -118,7 +118,7 @@ static SpecialFunctionHandler::HandlerInfo handlerInfo[] = {
   add("realloc", handleRealloc, true),
   
   /* Registering the handler, last paramter indicates if there is a return value or not */
-add("proto_tree_add_item", handleProtoTreeAddItem, false),
+add("proto_tree_add_item_custom", handleProtoTreeAddItem, false),
 
 
 #ifdef SUPPORT_KLEE_EH_CXX
@@ -592,13 +592,14 @@ void SpecialFunctionHandler::handleSetForking(ExecutionState &state,
 void SpecialFunctionHandler::handleProtoTreeAddItem(ExecutionState &state, 
 							KInstruction *target, 
 							std::vector<ref<Expr> > &arguments) {
-	llvm::errs() <<  "---------Handler--------" << "\n";
+	/**
+	llvm::errs() <<  "--i-------Handler--------" << "\n";
 	llvm::errs() << "Offset "  << ": " << arguments[3] << "\n";
 	
 	llvm::errs() << "Size is  " << ": " << arguments[4] << "\n";
 	llvm::errs() << "Field type "	<< ": " << arguments[1]	<< "\n";
 	llvm::errs() << "------------------------" << "\n";
-
+	**/
 
 	//Add customValues to be printed in query file.
 	std::map<std::string, ref<Expr>> params;
