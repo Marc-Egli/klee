@@ -118,7 +118,8 @@ static SpecialFunctionHandler::HandlerInfo handlerInfo[] = {
   add("realloc", handleRealloc, true),
   
   /* Registering the handler, last paramter indicates if there is a return value or not */
-add("proto_tree_add_item_custom", handleProtoTreeAddItem, false),
+add("klee_proto_tree_add_item", handleProtoTreeAddItem, false),
+add("klee_proto_tree_add_subtree", handleProtoTreeAddSubtree, false),
 
 
 #ifdef SUPPORT_KLEE_EH_CXX
@@ -607,6 +608,15 @@ void SpecialFunctionHandler::handleProtoTreeAddItem(ExecutionState &state,
 	params["Offset"] = arguments[3];
 	params["Size"] = arguments[4];
 	state.customValues.push_back(params);
+
+}
+
+void SpecialFunctionHandler::handleProtoTreeAddSubtree(ExecutionState &state, 
+							KInstruction *target, 
+							std::vector<ref<Expr> > &arguments) {
+	
+	llvm::errs() <<  "Popping value" << "\n";
+  state.customValues.pop_back();
 
 }
 
