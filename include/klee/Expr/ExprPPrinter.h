@@ -60,16 +60,20 @@ namespace klee {
     /// correct position following any output line breaks.
     static void printSingleExpr(llvm::raw_ostream &os, const ref<Expr> &e);
 
-    // Add customValues parameter to print later.
+    // Add customValues parameter to print.
+    // Add SMT2LIB format custtomValues to print.
     static void printConstraints(llvm::raw_ostream &os,
                                  const ConstraintSet &constraints,
-                                 const std::vector<std::map<std::string, ref<Expr>>> &customValues = std::vector<std::map<std::string, ref<Expr>>>());
+                                 const std::vector<std::map<std::string, ref<Expr>>> &customValues = std::vector<std::map<std::string, ref<Expr>>>(),
+                                 const std::vector<std::map<std::string, std::string>> &SMTcustomValues = std::vector<std::map<std::string, std::string>>());
 
     // Add customValues parameter to print later.
+    // Add SMT2LIB format custtomValues to print.
     static void printQuery(llvm::raw_ostream &os,
                            const ConstraintSet &constraints,
                            const ref<Expr> &q,
                            const std::vector<std::map<std::string, ref<Expr>>> &customValues = std::vector<std::map<std::string, ref<Expr>>>(),
+                           const std::vector<std::map<std::string, std::string>> &SMTcustomValues = std::vector<std::map<std::string, std::string>>(),
                            const ref<Expr> *evalExprsBegin = 0,
                            const ref<Expr> *evalExprsEnd = 0,
                            const Array * const* evalArraysBegin = 0,

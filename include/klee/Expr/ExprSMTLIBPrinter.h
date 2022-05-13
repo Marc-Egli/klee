@@ -210,7 +210,6 @@ public:
   /// \return True if human readable mode is switched on
   bool isHumanReadable();
 
-protected:
   /// Contains the arrays found during scans
   std::set<const Array *> usedArrays;
 
@@ -357,7 +356,6 @@ protected:
   /// Indicates if there were any constant arrays founds during a scan()
   bool haveConstantArray;
 
-private:
   SMTLIBv2Logic logicToUse;
 
   volatile bool humanReadable;

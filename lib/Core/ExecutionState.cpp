@@ -102,6 +102,7 @@ ExecutionState::ExecutionState(const ExecutionState& state):
     steppedInstructions(state.steppedInstructions),
     instsSinceCovNew(state.instsSinceCovNew),
     customValues(state.customValues), // add customValues
+    SMTcustomValues(state.SMTcustomValues), // add SMTcustomValues
     unwindingInformation(state.unwindingInformation
                              ? state.unwindingInformation->clone()
                              : nullptr),

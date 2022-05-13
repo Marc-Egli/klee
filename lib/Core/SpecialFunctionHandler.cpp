@@ -26,6 +26,8 @@
 #include "klee/Support/Debug.h"
 #include "klee/Support/ErrorHandling.h"
 #include "klee/Support/OptionCategories.h"
+#include "klee/Expr/ExprSMTLIBPrinter.h"
+
 
 #include "llvm/ADT/Twine.h"
 #include "llvm/IR/DataLayout.h"
@@ -602,6 +604,8 @@ void SpecialFunctionHandler::handleProtoTreeAddItem(ExecutionState &state,
 	llvm::errs() << "------------------------" << "\n";
 	**/
 
+
+
 	//Add customValues to be printed in query file.
 	std::map<std::string, ref<Expr>> params;
 	params["FieldType"] = arguments[1];
@@ -609,6 +613,27 @@ void SpecialFunctionHandler::handleProtoTreeAddItem(ExecutionState &state,
 	params["Size"] = arguments[4];
 	state.customValues.push_back(params);
 
+
+  //Add SMTcustomValues to be printed in query file.
+	std::map<std::string, std::string> smtparams;
+  ExprSMTLIBPrinter printer;
+  std::string Str;
+  llvm::raw_string_ostream info(Str);
+  printer.setOutput(info);
+
+  printer.printFullExpression(arguments[1], ExprSMTLIBPrinter::SMTLIB_SORT::SORT_BITVECTOR);
+  smtparams["FieldType"] = info.str();
+  Str.clear();
+
+  printer.printFullExpression(arguments[3], ExprSMTLIBPrinter::SMTLIB_SORT::SORT_BITVECTOR);
+	smtparams["Offset"] = info.str();
+  Str.clear();
+
+  printer.printFullExpression(arguments[4], ExprSMTLIBPrinter::SMTLIB_SORT::SORT_BITVECTOR);
+	smtparams["Size"] = info.str();
+  Str.clear();
+
+  state.SMTcustomValues.push_back(smtparams);
 }
 
 void SpecialFunctionHandler::handleProtoTreeAddSubtree(ExecutionState &state, 

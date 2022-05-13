@@ -42,9 +42,11 @@ private :
 
         const Query* q = (0 == falseQuery) ? &query : falseQuery;
 
-        // add customValues to print in query file
+        // add customValues to print in query file        
+        // add SMTcustomValues to print in query file
         printer->printQuery(logBuffer, q->constraints, q->expr,
                             std::vector<std::map<std::string, ref<Expr>>>(),
+                            std::vector<std::map<std::string, std::string>>(),
                             evalExprsBegin, evalExprsEnd,
                             evalArraysBegin, evalArraysEnd);
     }

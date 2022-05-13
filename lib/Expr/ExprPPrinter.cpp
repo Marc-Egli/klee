@@ -472,10 +472,12 @@ void ExprPPrinter::printSingleExpr(llvm::raw_ostream &os, const ref<Expr> &e) {
 }
 
 // add customValues to print in kquery file
+// add SMTcustomValues to print in kquery file
 void ExprPPrinter::printConstraints(llvm::raw_ostream &os,
                                     const ConstraintSet &constraints,
-                                    const std::vector<std::map<std::string, ref<Expr> >> &customValues) {
-  printQuery(os, constraints, ConstantExpr::alloc(false, Expr::Bool), customValues);
+                                    const std::vector<std::map<std::string, ref<Expr> >> &customValues,
+                                    const std::vector<std::map<std::string, std::string >> &SMTcustomValues) {
+  printQuery(os, constraints, ConstantExpr::alloc(false, Expr::Bool), customValues, SMTcustomValues);
 }
 
 namespace {
@@ -488,10 +490,12 @@ struct ArrayPtrsByName {
 }
 
 // add customValues to print in kquery file
+// add SMTcustomValues to print in kquery file
 void ExprPPrinter::printQuery(llvm::raw_ostream &os,
                               const ConstraintSet &constraints,
                               const ref<Expr> &q,
                               const std::vector<std::map<std::string, ref<Expr> >> &customValues,
+                              const std::vector<std::map<std::string, std::string >> &SMTcustomValues,
                               const ref<Expr> *evalExprsBegin,
                               const ref<Expr> *evalExprsEnd,
                               const Array * const *evalArraysBegin,
@@ -587,6 +591,24 @@ void ExprPPrinter::printQuery(llvm::raw_ostream &os,
     for(auto it1=it->begin(), ie1 = it->end(); it1 != ie1;){
       PC << it1->first;
       p.print(it1->second, PC, true);
+      PC.breakLine();
+      ++it1;
+    }
+    ++it;
+    if (it != ie)
+      PC.breakLine();
+  }
+  PC << ']';
+  PC.breakLine();
+
+
+    // Print SMTcustomValues (protocol fields) in the end of the query file.
+  PC << "Protocol fields [";
+  for(auto it = SMTcustomValues.begin(), ie = SMTcustomValues.end(); it != ie;){
+    for(auto it1=it->begin(), ie1 = it->end(); it1 != ie1;){
+      PC << it1->first;
+      PC << it1->second;
+      // p.print(it1->second, PC, true);
       PC.breakLine();
       ++it1;
     }

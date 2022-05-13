@@ -1633,8 +1633,11 @@ void QueryCommand::dump() {
     ObjectsEnd = ObjectsBegin + Objects.size();
   }
   // add customValues to print in query file
+  // add SMTcustomValues to print in query file
   ExprPPrinter::printQuery(llvm::outs(), ConstraintSet(Constraints), Query,
-                           std::vector<std::map<std::string, ref<Expr>>>(), ValuesBegin, ValuesEnd, ObjectsBegin, ObjectsEnd,
+                           std::vector<std::map<std::string, ref<Expr>>>(), 
+                           std::vector<std::map<std::string, std::string>>(),
+                           ValuesBegin, ValuesEnd, ObjectsBegin, ObjectsEnd,
                            false);
 }
 
