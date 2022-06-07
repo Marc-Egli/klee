@@ -639,8 +639,8 @@ void SpecialFunctionHandler::handleProtoTreeAddItem(ExecutionState &state,
 void SpecialFunctionHandler::handleProtoTreeAddSubtree(ExecutionState &state, 
 							KInstruction *target, 
 							std::vector<ref<Expr> > &arguments) {
-	
-	llvm::errs() <<  "Popping value" << "\n";
+  /* A subtree is not a valid field, we remove it from the map */	
+  //llvm::errs() <<  "Popping value" << "\n";
   state.customValues.pop_back();
 
 }
